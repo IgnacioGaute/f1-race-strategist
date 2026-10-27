@@ -1,0 +1,20 @@
+# Local PostgreSQL for development. The apps run on the host (see README).
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: f1
+      POSTGRES_PASSWORD: f1_local_dev
+      POSTGRES_DB: f1_strategist
+    ports:
+      - '5434:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U f1 -d f1_strategist']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
